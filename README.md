@@ -1,1 +1,1 @@
-# JavaDB
+# JavaMavenDB
