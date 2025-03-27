@@ -10,11 +10,10 @@ import java.sql.*;
 public class Main {
     public static void main(String[] args) {
 
-        try (Connection conn= ConexionBaseDatos.getinstance();){
+        try (Connection ignored = ConexionBaseDatos.getinstance()){
             Repositorio<Animal> repositorio = new AnimalRepositorioImpl();
             repositorio.listar().forEach(System.out::println);
 
-//            no jala
             System.out.println(repositorio.porid(1L));
         } catch (SQLException e) {
             throw new RuntimeException(e);

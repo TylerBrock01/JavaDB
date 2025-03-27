@@ -18,7 +18,7 @@ public class AnimalRepositorioImpl implements Repositorio<Animal> {
 
     @Override
     public List<Animal> listar() {
-        List<Animal> animals = new ArrayList<Animal>();
+        List<Animal> animals = new ArrayList<>();
         try(Statement stmt = getconection().createStatement();
             ResultSet rs = stmt.executeQuery("SELECT * FROM santuario")){
 
@@ -78,7 +78,7 @@ public class AnimalRepositorioImpl implements Repositorio<Animal> {
     }
     @Override
     public void eliminar(Long id) {
-        try (PreparedStatement stmt = getconection().prepareStatement("DELETE FROM santuario WHERE id_animal=?");){
+        try (PreparedStatement stmt = getconection().prepareStatement("DELETE FROM santuario WHERE id_animal=?")){
             stmt.setLong(1, id);
             stmt.executeUpdate();
         } catch (SQLException e) {
