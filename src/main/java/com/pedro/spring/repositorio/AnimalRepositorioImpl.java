@@ -40,12 +40,13 @@ public class AnimalRepositorioImpl implements Repositorio<Animal> {
                 prepareStatement("SELECT * FROM santuario WHERE idAnimal =?")) {
 
             stmt.setLong(1, id);
-            ResultSet rs = stmt.executeQuery();
+            try (ResultSet rs = stmt.executeQuery()) {
 
-            if (rs.next()) {
-                animales = crearAnimal(rs);
+                if (rs.next()) {
+                    animales = crearAnimal(rs);
+                }
+
             }
-            rs.close();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -54,9 +55,27 @@ public class AnimalRepositorioImpl implements Repositorio<Animal> {
 
     @Override
     public void guardar(Animal animal) {
+        String sql;
+        if (animal.getId() >0) sql = "UPDATE santuario SET nombre=?, edad=?, genero=?, altura=?, tipo=? where idAnimal=?";
+        else {
+            sql = "INSERT INTO santuario(nombre, edad, genero, altura, tipo) VALUES (?,?,?,?,?)";
+        }
+        try(PreparedStatement stmt = getconection().prepareStatement(sql)){
+            stmt.setString(1,animal.getAnimalName());
+            stmt.setInt(2,animal.getAge());
+            stmt.setString(3,animal.getGender());
+            stmt.setString(4,animal.getHeight());
+            stmt.setString(5, animal.getAnimalType());
 
+            if (animal.getId()>0) {
+                stmt.setLong(6,animal.getId());
+            }
+
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
-
     @Override
     public void eliminar(Long id) {
 
