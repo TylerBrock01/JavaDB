@@ -80,7 +80,7 @@ public class AnimalRepositorioImpl implements Repositorio<Animal> {
     }
     @Override
     public void eliminar(Long id) {
-        try (PreparedStatement stmt = getconection().prepareStatement("DELETE FROM santuario WHERE id_animal=?")){
+        try (PreparedStatement stmt = getconection().prepareStatement("DELETE FROM santuario WHERE idAnimal=?")){
             stmt.setLong(1, id);
             stmt.executeUpdate();
         } catch (SQLException e) {
