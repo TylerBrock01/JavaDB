@@ -1,6 +1,7 @@
 package com.pedro.spring.repositorio;
 
 import com.pedro.spring.models.Animal;
+import com.pedro.spring.models.Residencia;
 import com.pedro.spring.util.ConexionBaseDatos;
 
 import java.sql.*;
@@ -20,7 +21,8 @@ public class AnimalRepositorioImpl implements Repositorio<Animal> {
     public List<Animal> listar() {
         List<Animal> animals = new ArrayList<>();
         try(Statement stmt = getconection().createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT * FROM santuario")){
+            ResultSet rs = stmt.executeQuery("SELECT s.*, r.habitacion as residencia FROM santuario as s" +
+                    " inner join  residencia as r ON (s.residencia_id = r.id)") ){
 
             while (rs.next()) {
                 Animal a = crearAnimal(rs);
@@ -37,7 +39,8 @@ public class AnimalRepositorioImpl implements Repositorio<Animal> {
     public Animal porid(Long id) {
         Animal animales = null;
         try (PreparedStatement stmt = getconection().
-                prepareStatement("SELECT * FROM santuario WHERE idAnimal =?")) {
+                prepareStatement("SELECT s.*, r.habitacion as residencia FROM santuario as s " +
+                        "inner join  residencia as r ON (s.residencia_id = r.id) WHERE idAnimal =?")) {
 
             stmt.setLong(1, id);
             try (ResultSet rs = stmt.executeQuery()) {
@@ -57,10 +60,10 @@ public class AnimalRepositorioImpl implements Repositorio<Animal> {
     public void guardar(Animal animal) {
         String sql;
         if (animal.getId()>0){
-            sql = "UPDATE santuario SET nombre=?, edad=?, genero=?, altura=?, tipo=? where idAnimal=?";
+            sql = "UPDATE santuario SET nombre=?, edad=?, genero=?, altura=?, tipo=?, residencia_id=? where idAnimal=?";
         }
         else {
-            sql = "INSERT INTO santuario(nombre, edad, genero, altura, tipo) VALUES (?,?,?,?,?)";
+            sql = "INSERT INTO santuario(nombre, edad, genero, altura, tipo, residencia_id) VALUES (?,?,?,?,?,?)";
         }
         try(PreparedStatement stmt = getconection().prepareStatement(sql)){
             stmt.setString(1,animal.getAnimalName());
@@ -68,6 +71,7 @@ public class AnimalRepositorioImpl implements Repositorio<Animal> {
             stmt.setString(3,animal.getGender());
             stmt.setString(4,animal.getHeight());
             stmt.setString(5, animal.getAnimalType());
+            stmt.setLong(6,animal.getResidencia().getId());
 
             if (animal.getId()>0) {
                 stmt.setLong(6,animal.getId());
@@ -96,6 +100,10 @@ public class AnimalRepositorioImpl implements Repositorio<Animal> {
         a.setGender(rs.getString("genero"));
         a.setHeight(rs.getString("altura"));
         a.setAnimalType(rs.getString("tipo"));
+        Residencia residencia = new Residencia();
+        residencia.setId(rs.getLong("residencia_id"));
+        residencia.setHabitacion(rs.getString("residencia"));
+        a.setResidencia(residencia);
         return a;
     }
 }
