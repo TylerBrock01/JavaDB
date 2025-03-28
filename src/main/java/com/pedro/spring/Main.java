@@ -17,8 +17,8 @@ public class Main {
             System.out.println("========== listar animals ==========");
             repositorio.listar().forEach(System.out::println);
 
-//            System.out.println("========== Ver por id animals ==========");
-//            System.out.println(repositorio.porid(1L));
+            System.out.println("========== Ver por id animals ==========");
+            System.out.println(repositorio.porid(1L));
 
             System.out.println("========== Insertar animals ==========");
             Animal animal = new Animal();

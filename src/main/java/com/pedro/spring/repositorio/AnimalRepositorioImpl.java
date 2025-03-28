@@ -20,7 +20,8 @@ public class AnimalRepositorioImpl implements Repositorio<Animal> {
     @Override
     public List<Animal> listar() {
         List<Animal> animals = new ArrayList<>();
-        try(Statement stmt = getconection().createStatement();
+        try(Connection conn = getconection();
+                Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery("SELECT s.*, r.habitacion as residencia FROM santuario as s" +
                     " inner join  residencia as r ON (s.residencia_id = r.id)") ){
 
@@ -38,8 +39,8 @@ public class AnimalRepositorioImpl implements Repositorio<Animal> {
     @Override
     public Animal porid(Long id) {
         Animal animales = null;
-        try (PreparedStatement stmt = getconection().
-                prepareStatement("SELECT s.*, r.habitacion as residencia FROM santuario as s " +
+        try (Connection conn = getconection();
+             PreparedStatement stmt = conn.prepareStatement("SELECT s.*, r.habitacion as residencia FROM santuario as s " +
                         "inner join  residencia as r ON (s.residencia_id = r.id) WHERE s.idAnimal =?")) {
 
             stmt.setLong(1, id);
@@ -65,7 +66,8 @@ public class AnimalRepositorioImpl implements Repositorio<Animal> {
         else {
             sql = "INSERT INTO santuario(nombre, edad, genero, altura, tipo, residencia_id) VALUES (?,?,?,?,?,?)";
         }
-        try(PreparedStatement stmt = getconection().prepareStatement(sql)){
+        try(Connection conn = getconection();
+            PreparedStatement stmt = conn.prepareStatement(sql)){
             stmt.setString(1,animal.getAnimalName());
             stmt.setInt(2,animal.getAge());
             stmt.setString(3,animal.getGender());
@@ -84,7 +86,8 @@ public class AnimalRepositorioImpl implements Repositorio<Animal> {
     }
     @Override
     public void eliminar(Long id) {
-        try (PreparedStatement stmt = getconection().prepareStatement("DELETE FROM santuario WHERE idAnimal=?")){
+        try (Connection conn = getconection();
+             PreparedStatement stmt = conn.prepareStatement("DELETE FROM santuario WHERE idAnimal=?")){
             stmt.setLong(1, id);
             stmt.executeUpdate();
         } catch (SQLException e) {
