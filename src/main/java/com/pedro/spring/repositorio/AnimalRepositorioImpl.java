@@ -56,7 +56,9 @@ public class AnimalRepositorioImpl implements Repositorio<Animal> {
     @Override
     public void guardar(Animal animal) {
         String sql;
-        if (animal.getId() >0) sql = "UPDATE santuario SET nombre=?, edad=?, genero=?, altura=?, tipo=? where idAnimal=?";
+        if (animal.getId()>0){
+            sql = "UPDATE santuario SET nombre=?, edad=?, genero=?, altura=?, tipo=? where idAnimal=?";
+        }
         else {
             sql = "INSERT INTO santuario(nombre, edad, genero, altura, tipo) VALUES (?,?,?,?,?)";
         }
