@@ -22,10 +22,10 @@ public class Main {
 
             System.out.println("========== Insertar animals ==========");
             Animal animal = new Animal();
-//            animal.setId(1L);
+            animal.setId(1L);
             animal.setAnimalName("puma");
             animal.setAge(1);
-            animal.setGender("Male");
+            animal.setGender("macho");
             animal.setHeight("mediano");
             animal.setAnimalType("terrestre");
             Residencia residencia = new Residencia();

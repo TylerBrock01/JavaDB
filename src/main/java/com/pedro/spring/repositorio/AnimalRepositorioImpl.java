@@ -74,7 +74,7 @@ public class AnimalRepositorioImpl implements Repositorio<Animal> {
             stmt.setLong(6,animal.getResidencia().getId());
 
             if (animal.getId()>0) {
-                stmt.setLong(6,animal.getId());
+                stmt.setLong(7,animal.getId());
             }
 
             stmt.executeUpdate();
