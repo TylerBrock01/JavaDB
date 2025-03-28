@@ -23,7 +23,7 @@ public class Main {
             System.out.println("========== Insertar animals ==========");
             Animal animal = new Animal();
             animal.setId(1L);
-            animal.setAnimalName("puma");
+            animal.setAnimalName("coyote");
             animal.setAge(1);
             animal.setGender("macho");
             animal.setHeight("mediano");

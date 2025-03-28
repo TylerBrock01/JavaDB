@@ -40,7 +40,7 @@ public class AnimalRepositorioImpl implements Repositorio<Animal> {
         Animal animales = null;
         try (PreparedStatement stmt = getconection().
                 prepareStatement("SELECT s.*, r.habitacion as residencia FROM santuario as s " +
-                        "inner join  residencia as r ON (s.residencia_id = r.id) WHERE idAnimal =?")) {
+                        "inner join  residencia as r ON (s.residencia_id = r.id) WHERE s.idAnimal =?")) {
 
             stmt.setLong(1, id);
             try (ResultSet rs = stmt.executeQuery()) {
