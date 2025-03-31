@@ -5,16 +5,11 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class ConexionBaseDatos {
-    private static String url="jdbc:mysql://localhost:3306/zoologico";
-    private static String username="root";
-    private static String password="kali";
-
-    private static Connection con;
+    private static final String url="jdbc:mysql://localhost:3306/zoologico";
+    private static final String username="root";
+    private static final String password="kali";
 
     public static Connection getinstance() throws SQLException {
-        if(con==null){
-            con = DriverManager.getConnection(url,username,password);
-        }
-        return con;
+        return DriverManager.getConnection(url,username,password);
     }
 }
